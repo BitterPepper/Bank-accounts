@@ -1,4 +1,4 @@
-# Bank-accounts
+# Bank accounts
 Bank accounts. Rest Jetty+Jersey
 
 Running the application
