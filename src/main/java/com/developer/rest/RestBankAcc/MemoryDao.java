@@ -16,15 +16,14 @@ public enum MemoryDao implements Dao {
 		return accounts.get(name).getBalance();
 	}
 
-	public String setFunds(String name, double ammount, Operation oper) {
-		BigDecimal opAmmount = new BigDecimal(ammount);
+	public String setFunds(String name, BigDecimal opAmmount, Operation oper) {
 		Account account = accounts.get(name);
 		BigDecimal tmpValue = account == null? new BigDecimal(0) : account.getBalance();
 		BigDecimal resValue;
 		if (oper.equals(Operation.SUBSTRACT)) {
 			if (tmpValue.compareTo(opAmmount) < 0) {
 				return "Not enough founds on the account: " + name + ". "
-						+ "Required: " + ammount + ", account balance: "+ tmpValue.doubleValue();
+						+ "Required: " + opAmmount + ", account balance: "+ tmpValue.doubleValue();
 			}
 			resValue = tmpValue.subtract(opAmmount);
 		} else {

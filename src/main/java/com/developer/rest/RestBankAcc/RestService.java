@@ -1,5 +1,6 @@
 package com.developer.rest.RestBankAcc;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class RestService {
     @Produces(MediaType.TEXT_HTML)
 	public Response postForm(@FormParam("nameFrom") String nameFrom,
 			@FormParam("nameTo") String nameTo,
-			@FormParam("amount") double amount,
+			@FormParam("amount") BigDecimal amount,
 			@FormParam("param") List<String> param,
 			@Context ServletContext context) {
 

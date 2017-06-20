@@ -6,7 +6,7 @@ import java.util.Map;
 public interface Dao {
 	public BigDecimal getFunds(String name);
 
-	public String setFunds(String name, double ammount, Operation oper);
+	public String setFunds(String name, BigDecimal ammount, Operation oper);
 
 	public Map<String, Account> getAccounts();
 }

@@ -1,11 +1,12 @@
 package com.developer.rest.RestBankAcc;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class AccountService {
 
-	public static String performOperation(String nameFrom, String nameTo, double amount, String oper){
+	public static String performOperation(String nameFrom, String nameTo, BigDecimal amount, String oper){
 		String errors = AccountService.checkParameters(nameFrom, nameTo, amount, oper);
 		if (errors.length() == 0){
 			if (oper.equals("put")){
@@ -19,7 +20,7 @@ public class AccountService {
 		 return errors;
 	}
 
-	private static String checkParameters(String nameFrom, String nameTo, double amount, String oper) {
+	private static String checkParameters(String nameFrom, String nameTo, BigDecimal amount, String oper) {
 		StringBuilder errors = new StringBuilder();
 		if (nameFrom == null) {
 			errors.append("Not set name of client from! ");
@@ -38,24 +39,24 @@ public class AccountService {
 					errors.append("name of client to is empty!");
 				}
 			}
-			if (amount <= 0) {
+			if (amount.compareTo(BigDecimal.ZERO) > 0) {
 				errors.append("Not set ammount");
 			}
 		}
 		return errors.toString();
 	}
 
-	private static synchronized void putFunds(String nameFrom, Double ammount) {
+	private static synchronized void putFunds(String nameFrom, BigDecimal ammount) {
 		Dao memoryDao = MemoryDao.instance;
 		memoryDao.setFunds(nameFrom, ammount, Operation.ADD);
 	}
 
-	private static synchronized String withdrawFunds(String nameFrom, Double ammount) {
+	private static synchronized String withdrawFunds(String nameFrom, BigDecimal ammount) {
 		Dao memoryDao = MemoryDao.instance;
 		return memoryDao.setFunds(nameFrom, ammount, Operation.SUBSTRACT);
 	}
 
-	private static synchronized String transferFunds(String nameFrom, String nameTo, Double ammount) {
+	private static synchronized String transferFunds(String nameFrom, String nameTo, BigDecimal ammount) {
 		Dao memoryDao = MemoryDao.instance;
 		String error = memoryDao.setFunds(nameFrom, ammount, Operation.SUBSTRACT);
 		if (error == null) {
@@ -71,7 +72,7 @@ public class AccountService {
 		Map<String, Account> accounts = memoryDao.getAccounts();
 		for (Entry<String, Account> account : accounts.entrySet()){
 			result.append(account.getKey()).append(" : ").append(account.getValue().getBalance())
-			.append('\n');
+			.append("</br>");
 		}
 		return result.toString();
 	}
